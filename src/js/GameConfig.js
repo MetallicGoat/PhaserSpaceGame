@@ -1,9 +1,12 @@
-let scale = 3;
-let width = 256 * scale;
-let height = 272 * scale;
+let width = 425 * 4;
+let height = 272 * 4;
 
 const config = {
-    scale: scale,
+    scale: {
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        mode: Phaser.Scale.FIT
+    },
+
     width: width,
     height: height,
     backgroundColor: 0x000000,

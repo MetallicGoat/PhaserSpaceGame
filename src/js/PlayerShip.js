@@ -8,18 +8,24 @@ class PlayerShip extends Phaser.GameObjects.Sprite {
         this.depth = 10;
         this.scene = config.scene;
         this.flipY = true;
-        this.setScale(config.scale);
+        this.setScale(5);
         this.setInteractive();
         this.play("ship2_anim");
     }
 
+    destroyRandom(possibleTargets){
+        const actualTargets = possibleTargets.filter(sprite => (!weaponsFiring.has(sprite) && sprite.y < this.x));
+
+        if(actualTargets.length > 0)
+            this.fireWeapon(actualTargets[Math.floor(Math.random()*actualTargets.length)])
+    }
 
     fireWeapon(target){
         // Already shooting there
         if(weaponsFiring.has(target) || target.exploding)
             return;
 
-        const weapon = this.scene.add.line(5, 5, this.x, this.y, target.x, target.y, 0xff0000).setOrigin(0, 0).setLineWidth(5).setDepth(5);
+        const weapon = this.scene.add.line(5, 5, this.x, this.y, target.x, target.y, 0xff0000).setOrigin(0, 0).setLineWidth(3).setDepth(5);
         weaponsFiring.set(target, weapon);
 
         setTimeout(() => {

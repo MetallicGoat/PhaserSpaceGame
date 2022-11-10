@@ -4,7 +4,10 @@ class LoadScene extends Phaser.Scene {
   }
 
   preload(){
-    this.load.image("background", "assets/images/background.png");
+
+    localStorage.getItem("");
+
+    this.load.image("background", "assets/images/img.png");
 
     this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
       frameWidth: 16,

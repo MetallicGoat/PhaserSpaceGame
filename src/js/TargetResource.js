@@ -1,8 +1,8 @@
-let texture = [{texture: "ship", animation: "ship1_anim"}, {texture: "ship2", animation: "ship2_anim"}, {texture: "ship3", animation: "ship3_anim"}];
+let texture = [{texture: "ship", animation: "ship1_anim"}, /*{texture: "ship2", animation: "ship2_anim"}, */ {texture: "ship3", animation: "ship3_anim"}];
 
 class TargetResource extends Phaser.GameObjects.Sprite {
     constructor(config) {
-        const shipType = Phaser.Math.Between(0, 2);
+        const shipType = Phaser.Math.Between(0, 1);
 
         super(config.scene, config.x, config.y, texture[shipType].texture);
         config.scene.add.existing(this);
@@ -11,7 +11,7 @@ class TargetResource extends Phaser.GameObjects.Sprite {
         this.scene = config.scene;
         this.speed = Phaser.Math.Between(1, 10);
         this.exploding = false;
-        this.setScale(config.scale);
+        this.setScale(3);
         this.setInteractive();
         this.play(texture[shipType].animation);
         this.on('animationcomplete', this.kill, this)
@@ -25,6 +25,7 @@ class TargetResource extends Phaser.GameObjects.Sprite {
         this.exploding = true;
         this.setTexture("explosion");
         this.play("explode");
+        this.scene.addResource(1);
     }
     runUpdate(){
         this.moveShip();
