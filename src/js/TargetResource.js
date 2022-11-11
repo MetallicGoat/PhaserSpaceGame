@@ -12,7 +12,7 @@ class TargetResource extends Phaser.GameObjects.Sprite {
         this.speed = Phaser.Math.Between(1, 10);
         this.exploding = false;
         this.setScale(3);
-        this.setInteractive();
+        this.setInteractive({ useHandCursor: true });
         this.play(texture[shipType].animation);
         this.on('animationcomplete', this.kill, this)
     }

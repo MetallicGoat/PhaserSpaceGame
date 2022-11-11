@@ -10,7 +10,7 @@ const config = {
     width: width,
     height: height,
     backgroundColor: 0x000000,
-    scene: [LoadScene, GameScene],
+    scene: [LoadScene, GameScene], // First scene in array is run first
     pixelArt: true,
 
     // set the physics to arcade

@@ -5,7 +5,7 @@ class LoadScene extends Phaser.Scene {
 
   preload(){
 
-    localStorage.getItem("");
+    // localStorage.getItem("");
 
     this.load.image("background", "assets/images/img.png");
 
@@ -36,6 +36,8 @@ class LoadScene extends Phaser.Scene {
   }
 
   create() {
+    new PlayerData();
+
     this.add.text(20, 20, "Loading gameConfig...");
     this.scene.start("playGame");
   }
