@@ -36,7 +36,7 @@ class LoadScene extends Phaser.Scene {
   }
 
   create() {
-    new PlayerData();
+    new GameData();
 
     this.add.text(20, 20, "Loading gameConfig...");
     this.scene.start("playGame");

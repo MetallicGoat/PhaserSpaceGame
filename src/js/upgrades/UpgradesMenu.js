@@ -16,14 +16,14 @@ class UpgradesMenu extends Phaser.GameObjects.Container {
 
     buildUpgradeButtons(){
         // Build menu
-        //const upgrade = new PlayerUpgrade("Test Upgrade");
+        // const upgrade = new PlayerUpgrade("Test Upgrade");
         let space = 70;
 
-        for(let upgrade of PlayerData.upgrades){
+        for(let upgrade of GameData.allUpgrades){
             const button = upgrade.buildButton(this.scene, this.width, space);
 
             this.add(button);
-            space += 70 + 30;
+            space += 70 + 50;
         }
     }
 }

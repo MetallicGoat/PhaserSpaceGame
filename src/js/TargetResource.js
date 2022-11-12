@@ -25,7 +25,7 @@ class TargetResource extends Phaser.GameObjects.Sprite {
         this.exploding = true;
         this.setTexture("explosion");
         this.play("explode");
-        this.scene.addResource(1);
+        GameData.addResource(1);
     }
     runUpdate(){
         this.moveShip();
