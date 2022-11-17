@@ -1,50 +1,40 @@
 class GameScene extends Phaser.Scene {
   constructor() {
     super("playGame");
-    GameData.registerScene(this);
+    GameManager.registerScene(this);
   }
 
   create() {
     this.loadAnimations();
+    GameManager.load(this);
 
     this.gameBoxWidth = config.width * (3/4);
     this.background = this.add.tileSprite(0, 0, this.gameBoxWidth, config.height, "background");
     this.background.setScale(2);
 
-    this.screenText = this.add.text(30, 20, GameData.resources.toString(), {
+    this.screenText = this.add.text(30, 20, GameManager.resources.toString(), {
       font: "25px Arial",
       fill: "yellow"
     }).setDepth(10).setScale(3);
 
     this.player = new PlayerShip({scene:this, x:this.gameBoxWidth/2, y:config.height*.8});
+    GameManager.playerShip = this.player;
+
     this.input.on('gameobjectdown', this.destroyShip, this);
 
     this.upgradesMenu = new UpgradesMenu({scene: this, x: this.gameBoxWidth, y: 0, width: config.width - this.gameBoxWidth, height: config.height});
   }
 
   update() {
-    this.player.runUpdate();
-    const allShips = this.children.list.filter(sprite => (sprite instanceof TargetResource));
+    this.background.tilePositionY -= .5;
 
-    // Auto fire test
-    if(allShips.length > 0 && Phaser.Math.Between(0, 100) > 99){
-      this.player.destroyRandom(allShips);
-    }
-
-    if(allShips.length < 10000 && Phaser.Math.Between(0, 100) > 100 - GameData.scannersUpgrade.getCurrentLevel()){
-      new TargetResource({scene:this, x:Phaser.Math.Between(0, this.gameBoxWidth), y:-20, scale: config.scale});
-    }
-
-    allShips.forEach(ship => {
-      ship.runUpdate();
-    })
-
-    this.background.tilePositionY -= 0.5;
-
+    GameManager.activeTargets.forEach(ship => {
+      ship.moveShip();
+    });
   }
 
   updateProgress() {
-    this.screenText.setText(GameData.resources.toString());
+    this.screenText.setText(GameManager.resources.toString());
   }
 
   destroyShip(pointer, gameObject) {

@@ -6,10 +6,11 @@ class TargetResource extends Phaser.GameObjects.Sprite {
 
         super(config.scene, config.x, config.y, texture[shipType].texture);
         config.scene.add.existing(this);
+        GameManager.activeTargets.push(this);
 
         this.depth = 0;
         this.scene = config.scene;
-        this.speed = Phaser.Math.Between(1, 10);
+        this.speed = Phaser.Math.Between(1, 6);
         this.exploding = false;
         this.setScale(3);
         this.setInteractive({ useHandCursor: true });
@@ -19,23 +20,24 @@ class TargetResource extends Phaser.GameObjects.Sprite {
 
     kill(){
         this.destroy();
+
+        // Remove ship from array
+        const pos = GameManager.activeTargets.indexOf(this);
+        GameManager.activeTargets.splice(pos, 1);
     }
 
     explode(){
         this.exploding = true;
         this.setTexture("explosion");
         this.play("explode");
-        GameData.addResource(1);
-    }
-    runUpdate(){
-        this.moveShip();
+        GameManager.addResource(1);
     }
 
     moveShip() {
         this.y += this.speed;
 
         if (this.y > config.height + this.height) {
-            this.destroy();
+            this.kill();
 
             if(this.line != null)
                 this.line.destroy();

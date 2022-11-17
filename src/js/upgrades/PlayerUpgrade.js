@@ -1,11 +1,16 @@
 class PlayerUpgrade {
-    constructor(upgradeName, startLevel) {
+    constructor(upgradeName, upgradeId, startLevel) {
         this.upgradeName = upgradeName;
+        this.upgradeId = upgradeId;
         this.currentLevel = startLevel;
     }
 
-    getName(){
+    getName() {
         return this.upgradeName;
+    }
+
+    getId() {
+        return this.upgradeId;
     }
 
     buildButton(scene, width, yOffset){
@@ -16,9 +21,10 @@ class PlayerUpgrade {
 
         container.add(rect);
 
-        this.buttonText = new Phaser.GameObjects.Text(scene, 0, 0, "Loading...", {fontSize: 30}).setOrigin(.5).setPosition(0, -13);
-        container.add(this.buttonText);
-        container.add(new Phaser.GameObjects.Text(scene, 0, 0, "Cost: 1000", {fontSize: 22}).setOrigin(.5).setPosition(0, 22));
+        this.buttonNameText = new Phaser.GameObjects.Text(scene, 0, 0, "Loading...", {fontSize: 30}).setOrigin(.5).setPosition(0, -13);
+        container.add(this.buttonNameText);
+        this.buttonCostText = new Phaser.GameObjects.Text(scene, 0, 0, "Loading...", {fontSize: 22}).setOrigin(.5).setPosition(0, 22)
+        container.add(this.buttonCostText);
 
         // Use logic
         {
@@ -27,7 +33,7 @@ class PlayerUpgrade {
 
             // Click
             rect.on("pointerdown", () => {
-                if(this.canAfford()) {
+                if(this.canBuy()) {
                     rect.setFillStyle(0x6444aa);
                     this.doUpgrade();
                 }
@@ -54,20 +60,31 @@ class PlayerUpgrade {
         return container;
     }
 
-    canAfford() {
-        return true;
+    canBuy() {
+        return (GameManager.resources - this.getCost()) >= 0;
     }
 
     doUpgrade() {
-        this.currentLevel += 1;
-        this.updateButtonText();
+        if(this.canBuy()) {
+            this.currentLevel += 1;
+            GameManager.resources -= this.getCost();
+
+            // Update display Info
+            GameManager.updateSceneProgress();
+            this.updateButtonText();
+        }
     }
 
     updateButtonText(){
-        this.buttonText.setText(this.upgradeName + " - " + this.currentLevel);
+        this.buttonNameText.setText(this.upgradeName + " - " + this.currentLevel);
+        this.buttonCostText.setText("Cost: " + this.getCost());
     }
 
     getCurrentLevel() {
         return this.currentLevel;
+    }
+
+    getCost() {
+        return Math.floor(5 * Math.pow(1.25, this.currentLevel + 1));
     }
 }

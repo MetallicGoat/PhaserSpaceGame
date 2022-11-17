@@ -4,6 +4,7 @@ class PlayerShip extends Phaser.GameObjects.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, "ship2");
         config.scene.add.existing(this);
+        GameManager.playerShip = this;
 
         this.depth = 10;
         this.scene = config.scene;

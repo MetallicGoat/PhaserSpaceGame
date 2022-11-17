@@ -7,37 +7,35 @@ class LoadScene extends Phaser.Scene {
 
     // localStorage.getItem("");
 
-    this.load.image("background", "assets/images/img.png");
+    this.load.image("background", "src/assets/images/img.png");
 
-    this.load.spritesheet("ship", "assets/spritesheets/ship.png",{
+    this.load.spritesheet("ship", "src/assets/spritesheets/ship.png",{
       frameWidth: 16,
       frameHeight: 16
     });
 
-    this.load.spritesheet("ship2", "assets/spritesheets/ship2.png",{
+    this.load.spritesheet("ship2", "src/assets/spritesheets/ship2.png",{
       frameWidth: 32,
       frameHeight: 16
     });
 
-    this.load.spritesheet("ship3", "assets/spritesheets/ship3.png",{
+    this.load.spritesheet("ship3", "src/assets/spritesheets/ship3.png",{
       frameWidth: 32,
       frameHeight: 32
     });
 
-    this.load.spritesheet("explosion", "assets/spritesheets/explosion.png",{
+    this.load.spritesheet("explosion", "src/assets/spritesheets/explosion.png",{
       frameWidth: 16,
       frameHeight: 16
     });
 
-    this.load.spritesheet("power-up", "assets/spritesheets/power-up.png",{
+    this.load.spritesheet("power-up", "src/assets/spritesheets/power-up.png",{
       frameWidth: 16,
       frameHeight: 16
     });
   }
 
   create() {
-    new GameData();
-
     this.add.text(20, 20, "Loading gameConfig...");
     this.scene.start("playGame");
   }
