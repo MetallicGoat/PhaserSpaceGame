@@ -28,6 +28,7 @@ class PlayerShip extends Phaser.GameObjects.Sprite {
 
         const weapon = this.scene.add.line(5, 5, this.x, this.y, target.x, target.y, 0xff0000).setOrigin(0, 0).setLineWidth(3).setDepth(5);
         weaponsFiring.set(target, weapon);
+        target.tint = 0xfc6203
 
         setTimeout(() => {
             weaponsFiring.delete(target);

@@ -2,20 +2,26 @@ let texture = [{texture: "ship", animation: "ship1_anim"}, /*{texture: "ship2", 
 
 class TargetResource extends Phaser.GameObjects.Sprite {
     constructor(config) {
-        const shipType = Phaser.Math.Between(0, 1);
+        const shipType = texture[Phaser.Math.Between(0, texture.length - 1)];
 
-        super(config.scene, config.x, config.y, texture[shipType].texture);
+        super(config.scene, config.x, config.y, shipType.texture);
         config.scene.add.existing(this);
         GameManager.activeTargets.push(this);
 
         this.depth = 0;
         this.scene = config.scene;
-        this.speed = Phaser.Math.Between(1, 6);
+        // this.speed = Phaser.Math.Between(1, 6);
         this.exploding = false;
         this.setScale(3);
         this.setInteractive({ useHandCursor: true });
-        this.play(texture[shipType].animation);
+        this.play(shipType.animation);
         this.on('animationcomplete', this.kill, this)
+        this.buildMoves(Phaser.Math.Between(2000, 16000));
+    }
+
+    buildMoves(timeAlive){
+        const amountOfMoves = (timeAlive / 20);
+        this.moveAmount = (config.height + this.height) / amountOfMoves;
     }
 
     kill(){
@@ -27,6 +33,7 @@ class TargetResource extends Phaser.GameObjects.Sprite {
     }
 
     explode(){
+        //this.tint = Math.random() * 0xffffff;
         this.exploding = true;
         this.setTexture("explosion");
         this.play("explode");
@@ -34,7 +41,7 @@ class TargetResource extends Phaser.GameObjects.Sprite {
     }
 
     moveShip() {
-        this.y += this.speed;
+        this.y += this.moveAmount;
 
         if (this.y > config.height + this.height) {
             this.kill();

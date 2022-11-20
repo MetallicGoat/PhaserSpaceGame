@@ -26,9 +26,9 @@ class UpgradesMenu extends Phaser.GameObjects.Container {
             space += 70 + 50;
         }
 
-        this.add(this.buildMoneyButton(this.scene, this.width, space))
-        space += 70 + 20
-        this.add(this.buildResetButton(this.scene, this.width, space))
+        //this.add(this.buildMoneyButton(this.scene, this.width, space))
+        //space += 70 + 20
+        //this.add(this.buildResetButton(this.scene, this.width, space))
     }
 
     buildMoneyButton(scene, width, yOffset){
